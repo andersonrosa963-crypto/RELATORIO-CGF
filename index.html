@@ -6,49 +6,70 @@
   <title>Sistema de Grupos Familiares</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800">
+<body class="bg-gradient-to-b from-slate-50 to-slate-200 min-h-screen text-slate-800">
 
   <!-- Header -->
-  <header class="bg-indigo-700 text-white shadow-md">
-    <div class="max-w-4xl mx-auto px-4 py-6 text-center">
-      <h1 class="text-2xl font-bold">Coordenação dos Grupos Familiares</h1>
-      <p class="text-indigo-200 text-sm mt-1">Lançamento de Relatórios & Atualização de Perfil</p>
+  <header class="relative bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-700 text-white shadow-lg pb-10">
+    <div class="max-w-4xl mx-auto px-4 pt-8 pb-2 text-center">
+      <img src="ieadpe-CYzhLUVg.png" alt="Logo IEADPE" class="h-16 md:h-20 mx-auto mb-4 drop-shadow-lg">
+      <h1 class="text-2xl md:text-3xl font-bold tracking-tight">Coordenação dos Grupos Familiares</h1>
+      <p class="text-indigo-200 text-sm mt-2">Lançamento de Relatórios &amp; Atualização de Perfil</p>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto p-4 md:p-6">
-    <!-- Abas de Navegação -->
-    <div class="flex border-b border-gray-300 mb-6 bg-white rounded-t-lg overflow-hidden shadow-sm">
-      <button id="tab-relatorio-btn" onclick="switchTab('relatorio')" class="flex-1 py-3 px-4 font-semibold text-center border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50">
-        📊 Lançar Relatório
-      </button>
-      <button id="tab-secretaria-btn" onclick="switchTab('secretaria')" class="flex-1 py-3 px-4 font-semibold text-center text-gray-500 hover:text-indigo-600">
-        👤 Perfil da Secretária
-      </button>
+  <main class="max-w-4xl mx-auto px-4 pb-10">
+    <!-- MENU INICIAL -->
+    <section id="menu-inicial" class="max-w-2xl mx-auto mt-10 md:mt-14">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <button onclick="selecionarOpcao('relatorio')" class="group bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center transition duration-200 hover:shadow-xl hover:-translate-y-1 hover:border-indigo-200">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-50 flex items-center justify-center text-3xl group-hover:bg-indigo-100 transition">📊</div>
+          <h2 class="text-lg font-bold text-indigo-900">Lançar Relatório</h2>
+          <p class="text-sm text-slate-500 mt-1">Envie o relatório mensal de desempenho da congregação</p>
+        </button>
+        <button onclick="selecionarOpcao('secretaria')" class="group bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center transition duration-200 hover:shadow-xl hover:-translate-y-1 hover:border-indigo-200">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-50 flex items-center justify-center text-3xl group-hover:bg-indigo-100 transition">👤</div>
+          <h2 class="text-lg font-bold text-indigo-900">Perfil da Secretária</h2>
+          <p class="text-sm text-slate-500 mt-1">Cadastre ou atualize os dados da secretária</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- Menu de Navegação Centralizado (visível apenas dentro de um formulário) -->
+    <div id="tabs-nav" class="hidden justify-center mt-10 md:mt-14 mb-8">
+      <div class="inline-flex items-center gap-1 bg-white p-1.5 rounded-full shadow-lg border border-slate-100">
+        <button onclick="voltarMenu()" class="px-4 py-2.5 rounded-full font-semibold text-sm text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200" title="Voltar ao menu">
+          ←
+        </button>
+        <button id="tab-relatorio-btn" onclick="switchTab('relatorio')" class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-md">
+          📊 Lançar Relatório
+        </button>
+        <button id="tab-secretaria-btn" onclick="switchTab('secretaria')" class="px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50">
+          👤 Perfil da Secretária
+        </button>
+      </div>
     </div>
 
-
     <!-- FORMULÁRIO RELATÓRIO -->
-    <section id="form-relatorio" class="bg-white p-6 rounded-lg shadow-sm">
-      <h2 class="text-xl font-bold mb-4 text-indigo-900 border-b pb-2">Relatório Mensal de Desempenho</h2>
+    <section id="form-relatorio" class="hidden bg-white p-6 rounded-xl shadow-lg border border-slate-100">
+      <h2 class="text-xl font-bold mb-4 text-indigo-900 border-l-4 border-indigo-600 pl-3">Relatório Mensal de Desempenho</h2>
       <form id="relatorioForm" onsubmit="enviarDados(event, 'relatorio')" class="space-y-4">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium mb-1">Área</label>
-            <select id="rel-area" required onchange="atualizarCongregacoes('rel-area', 'rel-congregacao')" class="w-full p-2 border rounded-md">
+            <select id="rel-area" required onchange="atualizarCongregacoes('rel-area', 'rel-congregacao')" class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="">Selecione a Área</option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Congregação</label>
-            <select id="rel-congregacao" required class="w-full p-2 border rounded-md">
+            <select id="rel-congregacao" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="">Selecione a Área primeiro</option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Mês/Ano</label>
-            <select id="rel-mesAno" required class="w-full p-2 border rounded-md">
+            <select id="rel-mesAno" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="">Selecione o Mês/Ano</option>
             </select>
           </div>
@@ -57,38 +78,38 @@
         <hr class="my-4 border-slate-200">
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          <div><label class="block text-xs font-semibold mb-1">Grupos Formados</label><input type="number" id="rel-gruposFormados" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Matriculados</label><input type="number" id="rel-matriculados" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Presentes</label><input type="number" id="rel-presentes" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Voluntários</label><input type="number" id="rel-voluntarios" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Famílias Visitadas</label><input type="number" id="rel-familiasVisitadas" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Pessoas Visitadas</label><input type="number" id="rel-pessoasVisitadas" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Literaturas Distrib.</label><input type="number" id="rel-literaturas" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Conversões</label><input type="number" id="rel-conversoes" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Batismos no Esp. Santo</label><input type="number" id="rel-batismos" min="0" required class="w-full p-2 border rounded-md"></div>
-          <div><label class="block text-xs font-semibold mb-1">Curas</label><input type="number" id="rel-curas" min="0" required class="w-full p-2 border rounded-md"></div>
+          <div><label class="block text-xs font-semibold mb-1">Grupos Formados</label><input type="number" id="rel-gruposFormados" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Matriculados</label><input type="number" id="rel-matriculados" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Presentes</label><input type="number" id="rel-presentes" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Voluntários</label><input type="number" id="rel-voluntarios" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Famílias Visitadas</label><input type="number" id="rel-familiasVisitadas" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Pessoas Visitadas</label><input type="number" id="rel-pessoasVisitadas" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Literaturas Distrib.</label><input type="number" id="rel-literaturas" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Conversões</label><input type="number" id="rel-conversoes" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Batismos no Esp. Santo</label><input type="number" id="rel-batismos" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
+          <div><label class="block text-xs font-semibold mb-1">Curas</label><input type="number" id="rel-curas" min="0" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"></div>
         </div>
 
-        <button type="submit" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md transition duration-200">
+        <button type="submit" class="w-full mt-6 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition duration-200">
           Enviar Relatório
         </button>
       </form>
     </section>
 
     <!-- FORMULÁRIO SECRETÁRIA -->
-    <section id="form-secretaria" class="bg-white p-6 rounded-lg shadow-sm hidden">
-      <h2 class="text-xl font-bold mb-4 text-indigo-900 border-b pb-2">Perfil da Secretária</h2>
+    <section id="form-secretaria" class="bg-white p-6 rounded-xl shadow-lg border border-slate-100 hidden">
+      <h2 class="text-xl font-bold mb-4 text-indigo-900 border-l-4 border-indigo-600 pl-3">Perfil da Secretária</h2>
       <form id="secretariaForm" onsubmit="enviarDados(event, 'secretaria')" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium mb-1">Área</label>
-            <select id="sec-area" required onchange="atualizarCongregacoes('sec-area', 'sec-congregacao')" class="w-full p-2 border rounded-md">
+            <select id="sec-area" required onchange="atualizarCongregacoes('sec-area', 'sec-congregacao')" class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="">Selecione a Área</option>
             </select>
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Congregação</label>
-            <select id="sec-congregacao" required class="w-full p-2 border rounded-md">
+            <select id="sec-congregacao" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="">Selecione a Área primeiro</option>
             </select>
           </div>
@@ -97,11 +118,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium mb-1">Nome Completo</label>
-            <input type="text" id="sec-nome" required class="w-full p-2 border rounded-md">
+            <input type="text" id="sec-nome" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Função</label>
-            <select id="sec-funcao" required class="w-full p-2 border rounded-md">
+            <select id="sec-funcao" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="1ª Secretária">1ª Secretária</option>
               <option value="2ª Secretária">2ª Secretária</option>
             </select>
@@ -111,22 +132,22 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium mb-1">Data de Nascimento</label>
-            <input type="date" id="sec-dataNascimento" required class="w-full p-2 border rounded-md">
+            <input type="date" id="sec-dataNascimento" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Nº Cartão de Membro</label>
-            <input type="text" id="sec-numeroCartao" required class="w-full p-2 border rounded-md">
+            <input type="text" id="sec-numeroCartao" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
           </div>
           <div>
             <label class="block text-sm font-medium mb-1">Apresentada?</label>
-            <select id="sec-apresentada" required class="w-full p-2 border rounded-md">
+            <select id="sec-apresentada" required class="w-full p-2 border border-slate-300 rounded-md transition focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
               <option value="Sim">Sim</option>
               <option value="Não">Não</option>
             </select>
           </div>
         </div>
 
-        <button type="submit" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md transition duration-200">
+        <button type="submit" class="w-full mt-6 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition duration-200">
           Salvar Perfil
         </button>
       </form>
@@ -208,17 +229,35 @@
       const btnRel = document.getElementById("tab-relatorio-btn");
       const btnSec = document.getElementById("tab-secretaria-btn");
 
+      const active = "px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-md";
+      const inactive = "px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50";
+
       if (tab === 'relatorio') {
         formRel.classList.remove("hidden");
         formSec.classList.add("hidden");
-        btnRel.className = "flex-1 py-3 px-4 font-semibold text-center border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50";
-        btnSec.className = "flex-1 py-3 px-4 font-semibold text-center text-gray-500 hover:text-indigo-600";
+        btnRel.className = active;
+        btnSec.className = inactive;
       } else {
         formSec.classList.remove("hidden");
         formRel.classList.add("hidden");
-        btnSec.className = "flex-1 py-3 px-4 font-semibold text-center border-b-2 border-indigo-600 text-indigo-600 bg-indigo-50/50";
-        btnRel.className = "flex-1 py-3 px-4 font-semibold text-center text-gray-500 hover:text-indigo-600";
+        btnSec.className = active;
+        btnRel.className = inactive;
       }
+    }
+
+    function selecionarOpcao(tab) {
+      document.getElementById("menu-inicial").classList.add("hidden");
+      document.getElementById("tabs-nav").classList.remove("hidden");
+      document.getElementById("tabs-nav").classList.add("flex");
+      switchTab(tab);
+    }
+
+    function voltarMenu() {
+      document.getElementById("form-relatorio").classList.add("hidden");
+      document.getElementById("form-secretaria").classList.add("hidden");
+      document.getElementById("tabs-nav").classList.add("hidden");
+      document.getElementById("tabs-nav").classList.remove("flex");
+      document.getElementById("menu-inicial").classList.remove("hidden");
     }
 
     async function enviarDados(event, tipo) {
